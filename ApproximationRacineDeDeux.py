@@ -22,7 +22,8 @@ def dichotomie(n):
     print(round(x1,n+1),"^2 = ", carre(x1))
     print(round(x2,n+1),"^2 = ", carre(x2))
 
-from decimal import * #Augmentation du nombre de décimales
+#https://docs.python.org/3/library/decimal.html#module-decimal
+from decimal import *
 D=Decimal
 getcontext().prec=1005
 def cent_decimales():
@@ -36,6 +37,7 @@ def cent_decimales():
             X2=M
     print(round(X1,100))
 
+#https://fr.wikipedia.org/wiki/M%C3%A9thode_de_Newton
 def newton(n):
     X1=D(1)
     X2=D(0.5)*(X1+2/X1)
