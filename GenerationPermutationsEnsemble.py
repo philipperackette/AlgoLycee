@@ -1,16 +1,28 @@
-def permutations(E):
-    if len(E)==0:
-        return([])
-    elif len(E)==1:
-        return([E])
-    else:
-        perm=[]
-        for i in range(len(E)):
-            e=E[i]
-            sousE=E[:i] + E[i+1:] #E privé de e
-            for p in permutations(sousE): #récursivité
-                perm.append([e] + p)
-    return(perm)
+from __future__ import annotations
+from typing import List, Sequence, Any
 
-for p in permutations(['A','B','C','D']):
-    print(p)
+
+def permutations(E: Sequence[Any]) -> List[List[Any]]:
+    """
+    Génère récursivement toutes les permutations de la séquence E.
+    """
+    if len(E) == 0:
+        return []
+    if len(E) == 1:
+        return [list(E)]
+
+    perm: List[List[Any]] = []
+    for i, e in enumerate(E):
+        sousE = E[:i] + E[i + 1:]  # E privé de e
+        for p in permutations(sousE):
+            perm.append([e] + p)
+    return perm
+
+
+def main() -> None:
+    for p in permutations(['A', 'B', 'C', 'D']):
+        print(p)
+
+
+if __name__ == "__main__":
+    main()
