@@ -28,4 +28,3 @@ def racine2_dichotomie(precision):
 print("Approximations de √2:")
 print(f"Par balayage (précision 6): {racine2_balayage(6):.8f}")
 print(f"Par dichotomie (précision 10): {racine2_dichotomie(10):.8f}")
-print(f"Valeur réelle: {2**0.5:.8f}")
