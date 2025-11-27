@@ -1,45 +1,18 @@
-import math
-from decimal import Decimal, getcontext
-
-
-def exp_serie(x: float, n: int) -> float:
+def approximation_e(n):
     """
-    Approximation de e^x par la série de Taylor (version flottante).
-
-    Somme_{k=0..n} x^k / k!
+    Approximation de e par la série 1 + 1/1! + 1/2! + ... + 1/n!
     """
-    terme = 1.0  # k = 0
-    somme = terme
-    for k in range(1, n + 1):
-        terme *= x / k  # évite de recalculer x**k à chaque fois
-        somme += terme
+    somme = 1.0
+    fact = 1.0
+    
+    for i in range(1, n + 1):
+        fact *= i  # calcul de i!
+        somme += 1.0 / fact
+    
     return somme
 
-
-def exp_decimal(x: str, n: int, precision: int) -> Decimal:
-    """
-    Version haute précision décimale de e^x.
-
-    x est passé en chaîne pour éviter les conversions flottantes.
-    """
-    getcontext().prec = precision
-    x_dec = Decimal(x)
-    terme = Decimal(1)
-    somme = terme
-    for k in range(1, n + 1):
-        terme *= x_dec / k
-        somme += terme
-    return somme
-
-
-def main() -> None:
-    approx_float = exp_serie(1.0, 20)
-    print("Approximation flottante de e :", approx_float)
-    print("Valeur math.e                 :", math.e)
-
-    approx_dec = exp_decimal("1", n=120, precision=80)
-    print("Approximation décimale de e  :", approx_dec)
-
-
-if __name__ == "__main__":
-    main()
+# Tests
+print("Approximations de e:")
+print(f"Avec 5 termes: {approximation_e(5):.6f}")
+print(f"Avec 10 termes: {approximation_e(10):.6f}")
+print(f"Avec 20 termes: {approximation_e(20):.6f}")

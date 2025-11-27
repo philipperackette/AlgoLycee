@@ -1,42 +1,35 @@
-from __future__ import annotations
-
-
-def premierePuissanceDeaSuperieureAb(a: int, b: int) -> int:
+def puissance_superieure(a, b):
     """
-    Plus petite puissance de a supérieure ou égale à b.
-    On travaille avec a > 1 (sinon la notion n'a pas trop de sens).
+    Plus petite puissance de a supérieure ou égale à b
     """
-    if a in (0, 1, -1):
-        raise ValueError("On suppose |a| > 1.")
+    if a <= 1:
+        return "a doit être > 1"
+    
+    puissance = 1
+    while puissance < b:
+        puissance *= a
+    
+    return puissance
 
-    if b <= 1:
-        return 1
-
-    m = 1
-    while m < b:
-        m *= a
-    return m
-
-
-def premierePuissanceDeaInferieureAb(a: int, b: int) -> int:
+def puissance_inferieure(a, b):
     """
-    Plus grande puissance de a inférieure ou égale à b, pour |a| > 1.
+    Plus grande puissance de a inférieure ou égale à b
     """
-    if a in (0, 1, -1):
-        raise ValueError("On suppose |a| > 1.")
+    if a <= 1:
+        return "a doit être > 1"
+    
+    puissance = 1
+    while puissance * a <= b:
+        puissance *= a
+    
+    return puissance
 
-    if b <= 1:
-        return 1
+# Tests
+a = 2
+valeurs_b = [1, 5, 10, 20]
 
-    m = 1
-    while m * a <= b:
-        m *= a
-    return m
-
-
-if __name__ == "__main__":
-    a = 2
-    for b in [1, 2, 3, 5, 9, 17]:
-        print(f"a = {a}, b = {b} :")
-        print("  première puissance de a ≥ b :", premierePuissanceDeaSuperieureAb(a, b))
-        print("  première puissance de a ≤ b :", premierePuissanceDeaInferieureAb(a, b))
+print(f"Puissances de {a}:")
+for b in valeurs_b:
+    sup = puissance_superieure(a, b)
+    inf = puissance_inferieure(a, b)
+    print(f"b={b:2d} → puissance ≥ b: {sup:2d}, puissance ≤ b: {inf:2d}")

@@ -1,65 +1,46 @@
-# https://www.mathweb.fr/euclide/2022/06/14/creer-une-fonction-ifactors-en-python/
-from __future__ import annotations
-from typing import Dict
-
-
-def ifactors(n: int, decomp: bool = False):
+def decomposition_facteurs_premiers(n):
     """
-    Décomposition en facteurs premiers de n >= 2.
-
-    - Si decomp=False : renvoie un dictionnaire {prime: exposant}.
-    - Si decomp=True  : renvoie une chaîne "2² × 3³ × ...".
+    Décomposition en facteurs premiers
     """
     if n < 2:
-        return {} if not decomp else ""
-
-    D: Dict[int, int] = {}
-    i = 2
-
-    # Décomposition naïve (suffisant pour les entiers "lycée")
-    while i * i <= n:
-        exposant = 0
-        while n % i == 0:
-            exposant += 1
-            n //= i
-        if exposant != 0:
-            D[i] = exposant
-        i += 1
-
-    # S'il reste un facteur premier > sqrt(n)
+        return {}
+    
+    facteurs = {}
+    d = 2
+    
+    while d * d <= n:
+        while n % d == 0:
+            if d in facteurs:
+                facteurs[d] += 1
+            else:
+                facteurs[d] = 1
+            n //= d
+        d += 1
+    
     if n > 1:
-        D[n] = 1
+        facteurs[n] = 1
+    
+    return facteurs
 
-    if not decomp:
-        return D
+def afficher_decomposition(n):
+    """
+    Affiche la décomposition de manière lisible
+    """
+    facteurs = decomposition_facteurs_premiers(n)
+    
+    if not facteurs:
+        return f"{n} n'a pas de décomposition"
+    
+    termes = []
+    for facteur, exposant in sorted(facteurs.items()):
+        if exposant == 1:
+            termes.append(str(facteur))
+        else:
+            termes.append(f"{facteur}^{exposant}")
+    
+    return f"{n} = " + " × ".join(termes)
 
-    L_exp = [
-        0x2070,  # ⁰
-        0x00B9,  # ¹
-        0x00B2,  # ²
-        0x00B3,  # ³
-        0x2074,  # ⁴
-        0x2075,  # ⁵
-        0x2076,  # ⁶
-        0x2077,  # ⁷
-        0x2078,  # ⁸
-        0x2079,  # ⁹
-    ]
-
-    def expo_to_superscript(e: int) -> str:
-        s = ""
-        for ch in str(e):
-            s += chr(L_exp[int(ch)])
-        return s
-
-    morceaux = []
-    for prime in sorted(D):
-        e = D[prime]
-        morceaux.append(f"{prime}{expo_to_superscript(e)}")
-
-    return " × ".join(morceaux)
-
-
-if __name__ == "__main__":
-    print(ifactors(360))
-    print(ifactors(360, decomp=True))
+# Tests
+nombres = [12, 36, 100, 97]
+for n in nombres:
+    print(afficher_decomposition(n))

@@ -1,44 +1,36 @@
-from __future__ import annotations
-from typing import Tuple
-import math
-
-Point = Tuple[float, float]
-Vector = Tuple[float, float]
-
-
-def vecteur(A: Point, B: Point) -> Vector:
-    """Retourne le vecteur AB."""
-    return B[0] - A[0], B[1] - A[1]
-
-
-def determinant(u: Vector, v: Vector) -> float:
-    """Déterminant de (u, v)."""
-    return u[0] * v[1] - u[1] * v[0]
-
-
-def sont_alignes(A: Point, B: Point, C: Point, tol: float = 1e-9) -> bool:
+def sont_alignes(A, B, C):
     """
-    Teste l'alignement des 3 points avec une tolérance flottante.
+    Teste si 3 points A, B, C sont alignés
+    en utilisant le déterminant des vecteurs AB et AC
     """
-    AB = vecteur(A, B)
-    AC = vecteur(A, C)
-    det = determinant(AB, AC)
-    return math.isclose(det, 0.0, rel_tol=0.0, abs_tol=tol)
+    # Vecteur AB
+    AB_x = B[0] - A[0]
+    AB_y = B[1] - A[1]
+    
+    # Vecteur AC  
+    AC_x = C[0] - A[0]
+    AC_y = C[1] - A[1]
+    
+    # Déterminant
+    determinant = AB_x * AC_y - AB_y * AC_x
+    
+    # Si le déterminant est proche de 0, les points sont alignés
+    return abs(determinant) < 1e-9
 
+# Programme principal
+print("Test d'alignement de 3 points")
+xA = float(input("x_A = "))
+yA = float(input("y_A = "))
+xB = float(input("x_B = "))
+yB = float(input("y_B = "))
+xC = float(input("x_C = "))
+yC = float(input("y_C = "))
 
-def main() -> None:
-    xA = float(input("x_A = ? "))
-    yA = float(input("y_A = ? "))
-    xB = float(input("x_B = ? "))
-    yB = float(input("y_B = ? "))
-    xC = float(input("x_C = ? "))
-    yC = float(input("y_C = ? "))
+A = (xA, yA)
+B = (xB, yB)
+C = (xC, yC)
 
-    if sont_alignes((xA, yA), (xB, yB), (xC, yC)):
-        print("Une droite passe par A, B et C.")
-    else:
-        print("A, B et C ne sont pas alignés.")
-
-
-if __name__ == "__main__":
-    main()
+if sont_alignes(A, B, C):
+    print("✓ A, B et C sont alignés")
+else:
+    print("✗ A, B et C ne sont pas alignés")

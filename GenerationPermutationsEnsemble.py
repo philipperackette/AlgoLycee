@@ -1,28 +1,22 @@
-from __future__ import annotations
-from typing import List, Sequence, Any
-
-
-def permutations(E: Sequence[Any]) -> List[List[Any]]:
+def permutations_simples(elements):
     """
-    Génère récursivement toutes les permutations de la séquence E.
+    Génère les permutations d'une liste (version simplifiée)
     """
-    if len(E) == 0:
-        return []
-    if len(E) == 1:
-        return [list(E)]
+    if len(elements) <= 1:
+        return [elements]
+    
+    resultat = []
+    for i in range(len(elements)):
+        element_courant = elements[i]
+        elements_restants = elements[:i] + elements[i+1:]
+        
+        for perm in permutations_simples(elements_restants):
+            resultat.append([element_courant] + perm)
+    
+    return resultat
 
-    perm: List[List[Any]] = []
-    for i, e in enumerate(E):
-        sousE = E[:i] + E[i + 1:]  # E privé de e
-        for p in permutations(sousE):
-            perm.append([e] + p)
-    return perm
-
-
-def main() -> None:
-    for p in permutations(['A', 'B', 'C', 'D']):
-        print(p)
-
-
-if __name__ == "__main__":
-    main()
+# Test avec 3 éléments
+elements = ['A', 'B', 'C']
+print(f"Permutations de {elements}:")
+for perm in permutations_simples(elements):
+    print(perm)

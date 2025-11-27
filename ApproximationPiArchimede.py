@@ -1,41 +1,30 @@
-from __future__ import annotations
-from decimal import Decimal, getcontext
-from typing import Tuple
-
-
-def archimede(nb_iterations: int, precision: int) -> Tuple[Decimal, Decimal]:
+def archimede_pi(n_iterations):
     """
-    Calcule un encadrement de π par la méthode d'Archimède.
-
-    On part du cercle unité et de polygones réguliers inscrit / circonscrit.
-    Retourne (pi_gauche, pi_droite) tels que pi_gauche < π < pi_droite.
+    Approximation de π par la méthode d'Archimède
+    avec des polygones réguliers
     """
-    # petite marge pour les calculs internes
-    getcontext().prec = precision + 5
+    # On part d'un hexagone (6 côtés)
+    n_cotes = 6
+    cote = 1.0  # polygone inscrit dans un cercle de rayon 1
+    
+    for i in range(n_iterations):
+        # Doublage du nombre de côtés
+        n_cotes *= 2
+        
+        # Nouvelle longueur du côté
+        cote_nouveau = (2 - (4 - cote**2)**0.5)**0.5
+        
+        # Périmètre du polygone inscrit
+        perimetre_inscrit = n_cotes * cote_nouveau
+        
+        # Approximation de π (périmètre / diamètre)
+        pi_approx = perimetre_inscrit / 2
+        
+        cote = cote_nouveau
+    
+    return pi_approx
 
-    # Périmètres du carré circonscrit (T) et inscrit (S) à un cercle de rayon 1.
-    T = Decimal(8)                            # 4 côtés de longueur 2
-    S = Decimal(4) * Decimal(2).sqrt()        # 4 côtés de longueur √2
-
-    for _ in range(nb_iterations):
-        # Formules classiques d'Archimède
-        T = 2 * (S * T) / (S + T)             # polygone circonscrit
-        S = (S * T).sqrt()                    # polygone inscrit
-
-    # Périmètres / 2 = approximation de π
-    return T / 2, S / 2
-
-
-def main() -> None:
-    digits = 1000
-    iterations = 1700
-
-    pi_gauche, pi_droite = archimede(iterations, digits)
-
-    # On se remet à la précision souhaitée pour l'affichage
-    getcontext().prec = digits
-    print(f"{pi_gauche} < π < {pi_droite}")
-
-
-if __name__ == "__main__":
-    main()
+print("Approximation de π par Archimède:")
+for n in [3, 4, 5]:
+    approx = archimede_pi(n)
+    print(f"Après {2**(n+1)} côtés: π ≈ {approx:.10f}")
