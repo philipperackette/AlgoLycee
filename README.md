@@ -51,5 +51,5 @@ Ils sont pensés pour être lisibles par des élèves ou étudiants (lycée / d�
 Cloner le dépôt :
 
 ```bash
-git clone https://github.com/philipperackette/TON_DEPOT.git
+git clone https://github.com/philipperackette/AlgoLycee.git
 cd TON_DEPOT
