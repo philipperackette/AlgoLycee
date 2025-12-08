@@ -52,4 +52,4 @@ Cloner le dépôt :
 
 ```bash
 git clone https://github.com/philipperackette/AlgoLycee.git
-cd TON_DEPOT
+cd AlgoLycee
